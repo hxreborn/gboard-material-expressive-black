@@ -1,5 +1,5 @@
-name=Gboard AMOLED Dynamic Color
-description=Forces Gboard's Material You dark theme to true AMOLED black while preserving Monet accent colors
+name=Gboard Material Expressive Black
+description=Restores pitch black backgrounds to Gboard, bypassing Material 3 Expressive enforcement while preserving dynamic theme colors
 version=1.0.0
 versionCode=100
 author=hxreborn

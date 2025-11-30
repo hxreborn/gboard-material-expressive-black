@@ -105,3 +105,42 @@ dependencies {
     implementation(libs.libxposed.service)
     compileOnly(libs.libxposed.api)
 }
+
+tasks.register("validateVersionSync") {
+    doLast {
+        val gradleVersionCode = android.defaultConfig.versionCode
+        val gradleVersionName = android.defaultConfig.versionName
+
+        val modulePropFile = file("src/main/resources/META-INF/xposed/module.prop")
+        val propLines = modulePropFile.readLines()
+
+        val propVersionCode = propLines
+            .find { it.startsWith("versionCode=") }
+            ?.substringAfter("=")
+            ?.toIntOrNull()
+
+        val propVersion = propLines
+            .find { it.startsWith("version=") }
+            ?.substringAfter("=")
+
+        if (gradleVersionCode != propVersionCode) {
+            throw GradleException(
+                "Version mismatch: build.gradle.kts versionCode ($gradleVersionCode) != " +
+                "module.prop versionCode ($propVersionCode)"
+            )
+        }
+
+        if (gradleVersionName != propVersion) {
+            throw GradleException(
+                "Version mismatch: build.gradle.kts versionName ($gradleVersionName) != " +
+                "module.prop version ($propVersion)"
+            )
+        }
+
+        logger.lifecycle("Version sync validated: $gradleVersionName ($gradleVersionCode)")
+    }
+}
+
+tasks.named("preBuild") {
+    dependsOn("validateVersionSync")
+}

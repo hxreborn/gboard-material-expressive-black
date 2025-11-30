@@ -40,19 +40,10 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon
 
-      - name: Generate changelog
-        id: changelog
-        uses: orhun/git-cliff-action@v3
-        with:
-          config: .github/cliff.toml
-          args: --latest --strip header
-        env:
-          OUTPUT: CHANGELOG.md
-
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
-          body: ${{ steps.changelog.outputs.content }}
+          generate_release_notes: true
           files: app/build/outputs/apk/release/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

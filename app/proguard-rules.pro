@@ -1,12 +1,12 @@
 # Keep LSPosed module entry point (required for module discovery)
--keep class eu.hxreborn.gboardamoled.GboardAmoledModule { *; }
+-keep class eu.hxreborn.gboardmaterialexpressiveblack.GboardAmoledModule { *; }
 
 # Keep all hooker classes (required for @XposedHooker annotation processing)
 -keep @io.github.libxposed.api.annotations.XposedHooker class * { *; }
--keep class eu.hxreborn.gboardamoled.TypedArrayColorHooker { *; }
+-keep class eu.hxreborn.gboardmaterialexpressiveblack.TypedArrayColorHooker { *; }
 
 # Keep all module classes (prevents stripping of hook targets)
--keep class eu.hxreborn.gboardamoled.** { *; }
+-keep class eu.hxreborn.gboardmaterialexpressiveblack.** { *; }
 
 # Keep libxposed API annotations (required for hook registration)
 -keep class io.github.libxposed.api.annotations.** { *; }

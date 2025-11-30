@@ -1,4 +1,4 @@
-package eu.hxreborn.gboardamoled
+package eu.hxreborn.gboardmaterialexpressiveblack
 
 import android.content.res.Configuration
 import android.content.res.TypedArray
@@ -35,7 +35,6 @@ class TypedArrayColorHooker : XposedInterface.Hooker {
     private class HookContext private constructor(
         private val typedArray: TypedArray,
         private val index: Int,
-        val originalColor: Int,
     ) {
         val isDarkMode: Boolean
             get() = (typedArray.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
@@ -54,10 +53,9 @@ class TypedArrayColorHooker : XposedInterface.Hooker {
                 val typedArray = callback.thisObject as? TypedArray ?: return null
                 val args = callback.args
                 val index = args.getOrNull(0) as? Int ?: return null
-                val originalColor = callback.result as? Int ?: return null
                 typedArray.resources ?: return null
 
-                return HookContext(typedArray, index, originalColor)
+                return HookContext(typedArray, index)
             }
         }
     }

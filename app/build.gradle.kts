@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "eu.hxreborn.gboardamoled"
+    namespace = "eu.hxreborn.gboardmaterialexpressiveblack"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "eu.hxreborn.gboardamoled"
+        applicationId = "eu.hxreborn.gboardmaterialexpressiveblack"
         minSdk = 31
         targetSdk = 35
 

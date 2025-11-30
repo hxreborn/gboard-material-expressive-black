@@ -1,4 +1,4 @@
-package eu.hxreborn.gboardamoled
+package eu.hxreborn.gboardmaterialexpressiveblack
 
 import android.content.res.TypedArray
 import io.github.libxposed.api.XposedInterface

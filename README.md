@@ -3,6 +3,8 @@
 LSPosed module that restores pitch black backgrounds to Gboard on Android 16, bypassing Material 3 Expressive enforcement while preserving dynamic theme colors.
 
 ![GitHub Release](https://img.shields.io/github/v/release/hxreborn/gboard-material-expressive-black)
+![GitHub Downloads](https://img.shields.io/github/downloads/hxreborn/gboard-material-expressive-black/total)
+![License](https://img.shields.io/github/license/hxreborn/gboard-material-expressive-black)
 
 ## Why This Module?
 

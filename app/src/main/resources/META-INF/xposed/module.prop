@@ -1,7 +1,7 @@
 name=Gboard Material Expressive Black
 description=Enables pitch black Gboard background on Android 16 dynamic theme
-version=1.0.0
-versionCode=100
+version=1.0.1
+versionCode=101
 author=hxreborn
 minApiVersion=100
 targetApiVersion=100

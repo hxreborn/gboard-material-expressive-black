@@ -12,8 +12,8 @@ android {
         minSdk = 31
         targetSdk = 35
 
-        versionCode = 100
-        versionName = "1.0.0"
+        versionCode = 101
+        versionName = "1.0.1"
     }
 
     signingConfigs {
@@ -102,10 +102,9 @@ android {
 }
 
 dependencies {
-    // Commit AAR files directly to repo for reliable CI builds
-    implementation(files("$rootDir/libs/api-100.aar"))
-    implementation(files("$rootDir/libs/interface-100.aar"))
-    implementation(files("$rootDir/libs/service-100-1.0.0.aar"))
+    compileOnly(files("$rootDir/libs/api-100.aar"))
+    compileOnly(files("$rootDir/libs/interface-100.aar"))
+    compileOnly(files("$rootDir/libs/service-100-1.0.0.aar"))
 }
 
 tasks.register("validateVersionSync") {

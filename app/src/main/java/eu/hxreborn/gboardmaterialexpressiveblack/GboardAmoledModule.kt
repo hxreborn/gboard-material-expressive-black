@@ -12,10 +12,13 @@ class GboardAmoledModule(base: XposedInterface, param: ModuleLoadedParam) : Xpos
 
     init {
         module = this
+        module.log("$TAG Module initialized")
     }
 
     override fun onPackageLoaded(param: PackageLoadedParam) {
-        if (param.packageName != TARGET_PACKAGE || !param.isFirstPackage) return
+        if (param.packageName != TARGET_PACKAGE || !param.isFirstPackage) {
+            return
+        }
 
         module.log("$TAG Loaded package: ${param.packageName}")
 

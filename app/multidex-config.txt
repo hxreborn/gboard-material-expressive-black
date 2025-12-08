@@ -1,2 +1,0 @@
-eu/hxreborn/gboardamoled/GboardAmoledModule.class
-eu/hxreborn/gboardamoled/ResourcesColorHooker.class

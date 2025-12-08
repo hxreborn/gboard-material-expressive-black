@@ -8,8 +8,10 @@ import io.github.libxposed.api.XposedModuleInterface.PackageLoadedParam
 
 internal lateinit var module: GboardAmoledModule
 
-class GboardAmoledModule(base: XposedInterface, param: ModuleLoadedParam) : XposedModule(base, param) {
-
+class GboardAmoledModule(
+    base: XposedInterface,
+    param: ModuleLoadedParam,
+) : XposedModule(base, param) {
     init {
         module = this
         module.log("$TAG Module initialized")
@@ -22,16 +24,17 @@ class GboardAmoledModule(base: XposedInterface, param: ModuleLoadedParam) : Xpos
 
         module.log("$TAG Loaded package: ${param.packageName}")
 
-        val method = runCatching {
-            TypedArray::class.java.getDeclaredMethod(
-                "getColor",
-                Int::class.javaPrimitiveType,
-                Int::class.javaPrimitiveType
-            )
-        }.getOrElse {
-            module.log("$TAG Error: ${it.message}")
-            return
-        }
+        val method =
+            runCatching {
+                TypedArray::class.java.getDeclaredMethod(
+                    "getColor",
+                    Int::class.javaPrimitiveType,
+                    Int::class.javaPrimitiveType,
+                )
+            }.getOrElse {
+                module.log("$TAG Error: ${it.message}")
+                return
+            }
 
         runCatching {
             module.hook(method, TypedArrayColorHooker::class.java)

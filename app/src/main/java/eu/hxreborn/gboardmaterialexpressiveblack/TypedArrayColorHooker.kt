@@ -9,7 +9,6 @@ import io.github.libxposed.api.annotations.XposedHooker
 
 @XposedHooker
 class TypedArrayColorHooker : XposedInterface.Hooker {
-
     companion object {
         private const val AMOLED_BLACK = 0xFF000000.toInt()
         private const val SURFACE_CONTAINER_PREFIX = "system_surface_container"
@@ -24,9 +23,7 @@ class TypedArrayColorHooker : XposedInterface.Hooker {
             val resourceName = context.resolveResourceName() ?: return
 
             // Preserve borders and accent colors
-            if (resourceName.startsWith(SURFACE_CONTAINER_PREFIX)
-                && !resourceName.contains(HIGH_VARIANT_MARKER)
-            ) {
+            if (resourceName.startsWith(SURFACE_CONTAINER_PREFIX) && !resourceName.contains(HIGH_VARIANT_MARKER)) {
                 callback.result = AMOLED_BLACK
             }
         }

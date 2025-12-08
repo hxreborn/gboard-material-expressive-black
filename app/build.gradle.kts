@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.agp.app)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -19,7 +20,8 @@ android {
     signingConfigs {
         create("release") {
             fun secret(name: String): String? =
-                providers.gradleProperty(name)
+                providers
+                    .gradleProperty(name)
                     .orElse(providers.environmentVariable(name))
                     .orNull
 
@@ -50,7 +52,7 @@ android {
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
             signingConfig = signingConfigs.getByName("release")
         }
@@ -82,16 +84,17 @@ android {
     packaging {
         resources {
             merges += "META-INF/xposed/*"
-            excludes += setOf(
-                "META-INF/LICENSE",
-                "META-INF/LICENSE.txt",
-                "META-INF/NOTICE",
-                "META-INF/NOTICE.txt",
-                "META-INF/AL2.0",
-                "META-INF/LGPL2.1",
-                "META-INF/*.kotlin_module",
-                "META-INF/INDEX.LIST"
-            )
+            excludes +=
+                setOf(
+                    "META-INF/LICENSE",
+                    "META-INF/LICENSE.txt",
+                    "META-INF/NOTICE",
+                    "META-INF/NOTICE.txt",
+                    "META-INF/AL2.0",
+                    "META-INF/LGPL2.1",
+                    "META-INF/*.kotlin_module",
+                    "META-INF/INDEX.LIST",
+                )
         }
     }
 
@@ -99,6 +102,12 @@ android {
         abortOnError = true
         disable.add("OldTargetApi")
     }
+}
+
+ktlint {
+    version.set("1.4.1")
+    android.set(true)
+    ignoreFailures.set(false)
 }
 
 dependencies {
@@ -115,26 +124,28 @@ tasks.register("validateVersionSync") {
         val modulePropFile = file("src/main/resources/META-INF/xposed/module.prop")
         val propLines = modulePropFile.readLines()
 
-        val propVersionCode = propLines
-            .find { it.startsWith("versionCode=") }
-            ?.substringAfter("=")
-            ?.toIntOrNull()
+        val propVersionCode =
+            propLines
+                .find { it.startsWith("versionCode=") }
+                ?.substringAfter("=")
+                ?.toIntOrNull()
 
-        val propVersion = propLines
-            .find { it.startsWith("version=") }
-            ?.substringAfter("=")
+        val propVersion =
+            propLines
+                .find { it.startsWith("version=") }
+                ?.substringAfter("=")
 
         if (gradleVersionCode != propVersionCode) {
             throw GradleException(
                 "Version mismatch: build.gradle.kts versionCode ($gradleVersionCode) != " +
-                "module.prop versionCode ($propVersionCode)"
+                    "module.prop versionCode ($propVersionCode)",
             )
         }
 
         if (gradleVersionName != propVersion) {
             throw GradleException(
                 "Version mismatch: build.gradle.kts versionName ($gradleVersionName) != " +
-                "module.prop version ($propVersion)"
+                    "module.prop version ($propVersion)",
             )
         }
 

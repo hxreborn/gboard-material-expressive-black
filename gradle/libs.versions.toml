@@ -1,7 +1,9 @@
 [versions]
 agp = "8.5.2"
 kotlin = "2.0.0"
+ktlint = "12.1.2"
 
 [plugins]
 agp-app = { id = "com.android.application", version.ref = "agp" }
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }

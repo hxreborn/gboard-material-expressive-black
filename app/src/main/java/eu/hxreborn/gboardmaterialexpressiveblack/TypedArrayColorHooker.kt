@@ -2,57 +2,39 @@ package eu.hxreborn.gboardmaterialexpressiveblack
 
 import android.content.res.Configuration
 import android.content.res.TypedArray
-import io.github.libxposed.api.XposedInterface
-import io.github.libxposed.api.XposedInterface.AfterHookCallback
-import io.github.libxposed.api.annotations.AfterInvocation
-import io.github.libxposed.api.annotations.XposedHooker
+import eu.hxreborn.gboardmaterialexpressiveblack.GboardAmoledModule.Companion.TAG
+import io.github.libxposed.api.XposedModule
+import java.lang.reflect.Method
 
-@XposedHooker
-class TypedArrayColorHooker : XposedInterface.Hooker {
-    companion object {
-        private const val AMOLED_BLACK = 0xFF000000.toInt()
-        private const val SURFACE_CONTAINER_PREFIX = "system_surface_container"
-        private const val HIGH_VARIANT_MARKER = "high"
+object TypedArrayColorHooker {
+    private const val AMOLED_BLACK = 0xFF000000.toInt()
+    private const val SURFACE_CONTAINER_PREFIX = "system_surface_container"
+    private const val HIGH_VARIANT_MARKER = "high"
 
-        @JvmStatic
-        @AfterInvocation
-        fun afterGetColor(callback: AfterHookCallback) {
-            val context = HookContext.from(callback) ?: return
-            if (!context.isDarkMode) return
-
-            val resourceName = context.resolveResourceName() ?: return
-
-            // Preserve borders and accent colors
-            if (resourceName.startsWith(SURFACE_CONTAINER_PREFIX) && !resourceName.contains(HIGH_VARIANT_MARKER)) {
-                callback.result = AMOLED_BLACK
-            }
-        }
-    }
-
-    private class HookContext private constructor(
-        private val typedArray: TypedArray,
-        private val index: Int,
+    fun hook(
+        module: XposedModule,
+        method: Method,
     ) {
-        val isDarkMode: Boolean
-            get() = (typedArray.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        module.hook(method).intercept { chain ->
+            val result = chain.proceed()
+            val typedArray = chain.thisObject as? TypedArray ?: return@intercept result
+            val config = typedArray.resources?.configuration ?: return@intercept result
 
-        fun resolveResourceName(): String? {
+            val nightMode = config.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            if (nightMode != Configuration.UI_MODE_NIGHT_YES) return@intercept result
+
+            val index = chain.getArg(0) as? Int ?: return@intercept result
             val colorId = typedArray.getResourceId(index, 0)
-            if (colorId == 0) return null
+            if (colorId == 0) return@intercept result
 
-            return runCatching {
-                typedArray.resources.getResourceEntryName(colorId)
-            }.getOrNull()
-        }
+            val name =
+                runCatching { typedArray.resources.getResourceEntryName(colorId) }
+                    .getOrNull() ?: return@intercept result
 
-        companion object {
-            fun from(callback: AfterHookCallback): HookContext? {
-                val typedArray = callback.thisObject as? TypedArray ?: return null
-                val args = callback.args
-                val index = args.getOrNull(0) as? Int ?: return null
-                typedArray.resources ?: return null
-
-                return HookContext(typedArray, index)
+            if (name.startsWith(SURFACE_CONTAINER_PREFIX) && !name.contains(HIGH_VARIANT_MARKER)) {
+                AMOLED_BLACK
+            } else {
+                result
             }
         }
     }

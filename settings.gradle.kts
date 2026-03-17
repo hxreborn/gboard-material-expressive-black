@@ -7,15 +7,15 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         google()
         mavenCentral()
-    }
-    versionCatalogs {
-        create("libs")
+        mavenLocal {
+            content { includeGroup("io.github.libxposed") }
+        }
     }
 }
 
 rootProject.name = "GboardAmoledDynamicColor"
-
 include(":app")

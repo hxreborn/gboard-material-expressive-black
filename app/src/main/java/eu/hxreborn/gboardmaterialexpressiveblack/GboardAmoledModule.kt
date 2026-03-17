@@ -1,28 +1,18 @@
 package eu.hxreborn.gboardmaterialexpressiveblack
 
 import android.content.res.TypedArray
-import io.github.libxposed.api.XposedInterface
+import android.util.Log
 import io.github.libxposed.api.XposedModule
 import io.github.libxposed.api.XposedModuleInterface.ModuleLoadedParam
-import io.github.libxposed.api.XposedModuleInterface.PackageLoadedParam
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
-internal lateinit var module: GboardAmoledModule
-
-class GboardAmoledModule(
-    base: XposedInterface,
-    param: ModuleLoadedParam,
-) : XposedModule(base, param) {
-    init {
-        module = this
-        module.log("$TAG Module initialized")
+class GboardAmoledModule : XposedModule() {
+    override fun onModuleLoaded(param: ModuleLoadedParam) {
+        log(Log.INFO, TAG, "GboardAmoled v${BuildConfig.VERSION_NAME} loaded")
     }
 
-    override fun onPackageLoaded(param: PackageLoadedParam) {
-        if (param.packageName != TARGET_PACKAGE || !param.isFirstPackage) {
-            return
-        }
-
-        module.log("$TAG Loaded package: ${param.packageName}")
+    override fun onPackageReady(param: PackageReadyParam) {
+        if (param.packageName != TARGET_PACKAGE || !param.isFirstPackage) return
 
         val method =
             runCatching {
@@ -32,20 +22,21 @@ class GboardAmoledModule(
                     Int::class.javaPrimitiveType,
                 )
             }.getOrElse {
-                module.log("$TAG Error: ${it.message}")
+                log(Log.ERROR, TAG, "Method not found: ${it.message}")
                 return
             }
 
         runCatching {
-            module.hook(method, TypedArrayColorHooker::class.java)
-            module.log("$TAG Successfully hooked TypedArray.getColor")
+            TypedArrayColorHooker.hook(this, method)
+        }.onSuccess {
+            log(Log.INFO, TAG, "Hooked TypedArray.getColor")
         }.onFailure {
-            module.log("$TAG Hook failed: ${it.message}")
+            log(Log.ERROR, TAG, "Hook failed: ${it.message}")
         }
     }
 
     companion object {
-        const val TAG = "GboardAmoledModule"
+        const val TAG = "GboardAmoled"
         private const val TARGET_PACKAGE = "com.google.android.inputmethod.latin"
     }
 }

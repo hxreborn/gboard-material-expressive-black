@@ -3,9 +3,10 @@
 LSPosed module that restores pitch black backgrounds to Gboard on Android 16, bypassing Material 3 Expressive enforcement while preserving dynamic theme colors.
 
 ![GitHub Release](https://img.shields.io/github/v/release/hxreborn/gboard-material-expressive-black)
-![GitHub Downloads](https://img.shields.io/github/downloads/hxreborn/gboard-material-expressive-black/total)
+![GitHub Downloads](https://img.shields.io/github/downloads/hxreborn/gboard-material-expressive-black/total?label=GitHub%20downloads)
+![Xposed repo downloads](https://img.shields.io/github/downloads/Xposed-Modules-Repo/eu.hxreborn.gboardmaterialexpressiveblack/total?label=Xposed%20repo%20downloads)
 ![Android API](https://img.shields.io/badge/API-31%2B-brightgreen)
-![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-blue)
+![Kotlin](https://img.shields.io/badge/Kotlin-2.3.10-blue)
 ![APK Size](https://img.shields.io/badge/APK%20Size-~25KB-orange)
 
 ## Why This Module?
@@ -42,13 +43,13 @@ This module intercepts Material You color lookups at the system level using LSPo
 ## Requirements
 
 - Android 12+ (Android 16+ recommended for grey background fix)
-- LSPosed framework
+- [LSPosed](https://github.com/LSPosed/LSPosed) with API 101 support (may not be publicly available yet)
 
 Tested on Pixel 9 Pro, Android 16 (BP3A.251105.015), JingMatrix LSPosed fork, KernelSU Next. Functionality on other configurations untested.
 
 ## Installation
 
-1. Install [LSPosed](https://github.com/JingMatrix/LSPosed) (JingMatrix fork recommended)
+1. Install [LSPosed](https://github.com/LSPosed/LSPosed) with API 101 support
 2. Download latest APK from [releases](https://github.com/hxreborn/gboard-material-expressive-black/releases)
 3. Install APK and enable module in LSPosed Manager
 4. Add **Gboard** to module scope

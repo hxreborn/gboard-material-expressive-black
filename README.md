@@ -43,13 +43,13 @@ This module intercepts Material You color lookups at the system level using LSPo
 ## Requirements
 
 - Android 12+ (Android 16+ recommended for grey background fix)
-- [LSPosed](https://github.com/LSPosed/LSPosed) with API 101 support (may not be publicly available yet)
+- An LSPosed Manager version with API 101 support (required for now)
 
-Tested on Pixel 9 Pro, Android 16 (BP3A.251105.015), JingMatrix LSPosed fork, KernelSU Next. Functionality on other configurations untested.
+Tested on Pixel 9 Pro, Android 16 (BP3A.251105.015), LSPosed, KernelSU Next. Functionality on other configurations untested.
 
 ## Installation
 
-1. Install [LSPosed](https://github.com/LSPosed/LSPosed) with API 101 support
+1. Install LSPosed with API 101 support
 2. Download latest APK from [releases](https://github.com/hxreborn/gboard-material-expressive-black/releases)
 3. Install APK and enable module in LSPosed Manager
 4. Add **Gboard** to module scope

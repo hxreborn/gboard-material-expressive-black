@@ -29,7 +29,7 @@ jobs:
         run: echo "${{ secrets.RELEASE_KEYSTORE }}" | base64 -d > ${{ github.workspace }}/release.keystore
 
       - name: Build libxposed to mavenLocal
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 10
           max_attempts: 3

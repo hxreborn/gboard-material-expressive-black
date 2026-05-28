@@ -65,13 +65,13 @@ jobs:
           writeToFile: true
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           body: ${{ steps.changelog.outputs.changes }}
           files: app/build/outputs/apk/release/app-release.apk
 
       - name: Mirror to Xposed-Modules-Repo
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           repository: Xposed-Modules-Repo/eu.hxreborn.gboardmaterialexpressiveblack
           token: ${{ secrets.XPOSED_REPO_PAT }}

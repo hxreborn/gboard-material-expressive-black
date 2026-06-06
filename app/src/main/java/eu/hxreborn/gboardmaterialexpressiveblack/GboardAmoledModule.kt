@@ -27,7 +27,7 @@ class GboardAmoledModule : XposedModule() {
             }
 
         runCatching {
-            TypedArrayColorHooker.hook(this, method)
+            TypedArrayColorHook.hook(this, method)
         }.onSuccess {
             log(Log.INFO, TAG, "Hooked TypedArray.getColor")
         }.onFailure {

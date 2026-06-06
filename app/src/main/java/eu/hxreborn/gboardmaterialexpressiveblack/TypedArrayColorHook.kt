@@ -6,7 +6,7 @@ import eu.hxreborn.gboardmaterialexpressiveblack.GboardAmoledModule.Companion.TA
 import io.github.libxposed.api.XposedModule
 import java.lang.reflect.Method
 
-object TypedArrayColorHooker {
+object TypedArrayColorHook {
     private const val AMOLED_BLACK = 0xFF000000.toInt()
     private const val SURFACE_CONTAINER_PREFIX = "system_surface_container"
     private const val HIGH_VARIANT_MARKER = "high"

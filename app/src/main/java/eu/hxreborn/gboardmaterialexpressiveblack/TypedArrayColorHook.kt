@@ -2,8 +2,6 @@ package eu.hxreborn.gboardmaterialexpressiveblack
 
 import android.content.res.Configuration
 import android.content.res.TypedArray
-import eu.hxreborn.gboardmaterialexpressiveblack.GboardAmoledModule.Companion.TAG
-import io.github.libxposed.api.XposedModule
 import java.lang.reflect.Method
 
 object TypedArrayColorHook {
@@ -11,10 +9,7 @@ object TypedArrayColorHook {
     private const val SURFACE_CONTAINER_PREFIX = "system_surface_container"
     private const val HIGH_VARIANT_MARKER = "high"
 
-    fun hook(
-        module: XposedModule,
-        method: Method,
-    ) {
+    fun hook(method: Method) {
         module.hook(method).intercept { chain ->
             val result = chain.proceed()
             val typedArray = chain.thisObject as? TypedArray ?: return@intercept result

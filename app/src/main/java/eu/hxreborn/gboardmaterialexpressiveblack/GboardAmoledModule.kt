@@ -37,12 +37,11 @@ class GboardAmoledModule : XposedModule() {
                 return
             }
 
-        runCatching {
+        try {
             TypedArrayColorHook.hook(method)
-        }.onSuccess {
             log(Log.INFO, TAG, "hooked typed-array-color pkg=$TARGET_PACKAGE")
-        }.onFailure {
-            log(Log.ERROR, TAG, "hook typed-array-color failed pkg=$TARGET_PACKAGE", it)
+        } catch (e: Exception) {
+            log(Log.ERROR, TAG, "hook typed-array-color failed pkg=$TARGET_PACKAGE", e)
         }
     }
 }
